@@ -1,16 +1,30 @@
 {
   "name": "hogarpro-service",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "Servicio Portal Web Hogar Pro Solutions",
+  "type": "commonjs",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "ts-node src/index.ts",
+    "typeorm": "typeorm-ts-node-commonjs",
+    "nodemon": "nodemon --exec \"npm run start\""
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
+  "devDependencies": {
+    "@types/node": "^16.11.10",
+    "nodemon": "^2.0.20",
+    "ts-node": "10.7.0",
+    "typescript": "4.5.2"
+  },
   "dependencies": {
+    "bcrypt": "^5.1.1",
+    "class-validator": "^0.14.1",
+    "cors": "^2.8.5",
     "express": "^4.18.2",
+    "express-fileupload": "^1.4.3",
+    "jsonwebtoken": "^9.0.2",
     "pg": "^8.8.0",
     "typeorm": "^0.3.11"
   }
