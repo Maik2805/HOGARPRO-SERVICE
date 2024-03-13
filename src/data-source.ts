@@ -1,6 +1,11 @@
 import "reflect-metadata"
 import { DataSource } from "typeorm"
 import { Usuario } from "./entity/Usuario"
+import { Labor } from "./entity/Labor"
+import { LaborTrabajador } from "./entity/LaborTrabajador"
+import { MedioPago } from "./entity/MedioPago"
+import { Pago } from "./entity/Pago"
+import { Servicio } from "./entity/Servicio"
 
 
 export const AppDataSource = new DataSource({
@@ -13,7 +18,7 @@ export const AppDataSource = new DataSource({
     schema: "hogar_pro",
     synchronize: false,
     logging: true,
-    entities: [Usuario],
+    entities: [Usuario, Labor, LaborTrabajador, MedioPago, Pago, Servicio],
     migrations: [],
     subscribers: [],
     ssl: true,

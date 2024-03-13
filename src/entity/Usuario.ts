@@ -1,5 +1,8 @@
 import { Entity, Column, PrimaryColumn, OneToMany } from "typeorm"
 import { IsEmail } from "class-validator"
+import { MedioPago } from "./MedioPago"
+import { Servicio } from "./Servicio"
+import { LaborTrabajador } from "./LaborTrabajador"
 
 
 @Entity("usuarios")
@@ -46,4 +49,17 @@ export class Usuario {
     @Column()
     estado: string
 
+    @OneToMany(() => MedioPago, (medio) => medio.usuario)
+    mediosPago: MedioPago[]
+
+    @OneToMany(() => Servicio, (servicio) => servicio.trabajador)
+    serviciosPrestados: Servicio[]
+
+    @OneToMany(() => Servicio, (servicio) => servicio.cliente)
+    serviciosAdquiridos: Servicio[]
+
+    @OneToMany(() => LaborTrabajador, (labor) => labor.usuario, {
+        eager: true,
+    })
+    laborTrabajador: LaborTrabajador[]
 }
