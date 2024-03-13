@@ -3,6 +3,7 @@ import { Request, Response } from "express";
 import * as express from "express";
 import * as bodyParser from "body-parser";
 import * as usuarioController from "./controller/UsuarioController";
+import { AppRoutes } from "./routes";
 
 const jwt = require('jsonwebtoken');
 const dotenv = require('dotenv');
@@ -18,19 +19,32 @@ AppDataSource.initialize().then(async () => {
     app.use('/public', express.static(path.join(__dirname, 'public')));
     app.use(bodyParser.json());
 
-    const AppRoutes = [
-        {
-            path: "/usuarios/all",
-            method: "get",
-            action: usuarioController.all
-        }
-    ]
-
     AppRoutes.forEach(route => {
         app[route.method](route.path, (request: Request, response: Response, next: Function) => {
-            route.action(request, response)
-                .then(() => next)
-                .catch(err => next(err));
+            if (route.notLogged) {
+                route.action(request, response)
+                    .then(() => next)
+                    .catch(err => next(err));
+            } else {
+                const authHeader = request.headers['authorization']
+                // const authHeader = request.get("authorization");
+                const token = authHeader && authHeader.split(' ')[1]
+                jwt.verify(token, process.env.TOKEN_SECRET as string, (err: any, user: any) => {
+                    // console.log('Token Error: ', err)
+                    if (err) return response.sendStatus(403)
+                    request.user = user.usuario
+                    // console.log(user)
+                    if (route.adminRequired) {
+                        if (!user.usuario.isAdmin) {
+                            response.sendStatus(403);
+                            return;
+                        }
+                    }
+                    route.action(request, response)
+                        .then(() => next)
+                        .catch(err => next(err));
+                });
+            }
         });
     });
     app.listen(3000);
