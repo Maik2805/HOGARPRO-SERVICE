@@ -2,6 +2,7 @@ import * as usuarioController from "./controller/UsuarioController";
 import * as loginController from "./controller/LoginController";
 import * as laborController from "./controller/LaborController";
 import * as medioPagoController from "./controller/MedioPagoController";
+import * as pagoController from "./controller/PagoController";
 
 interface IRoute {
     path: string;
@@ -104,6 +105,21 @@ export const AppRoutes: IRoute[] = [
         path: "/medio_pago",
         method: "post",
         action: medioPagoController.save
+    },
+    {
+        path: "/pagos/findByServicio/:servicio",
+        method: "get",
+        action: pagoController.findByServicioId
+    },
+    {
+        path: "/pagos/findById/:id",
+        method: "get",
+        action: pagoController.findById
+    },
+    {
+        path: "/pagos",
+        method: "post",
+        action: pagoController.save
     }
 ];
 
