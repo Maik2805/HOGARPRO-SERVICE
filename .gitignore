@@ -118,3 +118,7 @@ dist
 
 tmp/
 temp/
+public/data_lake/imagenes/*
+public/data_lake/documentos/*
+!public/data_lake/imagenes/.gitkeep
+!public/data_lake/documentos/.gitkeep

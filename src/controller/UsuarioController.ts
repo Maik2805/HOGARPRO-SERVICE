@@ -4,6 +4,7 @@ import { Usuario } from "../entity/Usuario";
 import { Request, Response } from "express";
 
 import * as usuarioService from "../service/UsuarioService"
+import * as fileService from "../service/FileService"
 import { PublicUserInfo } from "../interface/PublicUserInfo";
 import { LaborTrabajador } from "../entity/LaborTrabajador";
 import { BasicUserInfo } from "../interface/BasicUserInfo";
@@ -85,3 +86,48 @@ export async function inactiveLaborUsuario(req: Request, res: Response) {
     labor.active = false;
     res.send(labor);
 }
+
+export async function saveFotoPerfilUsuario(req: Request, res: Response) {
+    try {
+        const user: BasicUserInfo = req.user;
+        const { imagen } = req.files;
+        const filename = fileService.uplodadImage(req.files)
+        const result = await userRepository.update({ celular: user.celular }, { fotoPerfil: filename });
+        usuarioService.validateTrabajadorDisponible(user.celular)
+
+        res.send(filename);
+    } catch (error) {
+        res.status(400);
+        res.send(error);
+        return;
+    }
+};
+
+export async function saveDocumentFile(req: Request, res: Response) {
+    try {
+        const user: BasicUserInfo = req.user;
+        const filename = fileService.uplodadDoc(req.files)
+        const result = await userRepository.update({ celular: user.celular }, { fotoDocumento: filename });
+        usuarioService.validateTrabajadorDisponible(user.celular)
+        res.send(filename);
+    } catch (error) {
+        res.status(400);
+        res.send(error);
+        return;
+    }
+};
+
+export async function saveFotoRecibo(req: Request, res: Response) {
+    try {
+        const user: BasicUserInfo = req.user;
+        const filename = fileService.uplodadImage(req.files)
+        const result = await userRepository.update({ celular: user.celular }, { fotoRecibo: filename });
+
+        res.send(filename);
+    } catch (error) {
+        console.error(error);
+        res.status(400);
+        res.send("Error Cargando la imagen");
+        return;
+    }
+};

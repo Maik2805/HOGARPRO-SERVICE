@@ -56,6 +56,20 @@ export const AppRoutes: IRoute[] = [
         path: "/usuarios/inactiveLaborUsuario",
         method: "post",
         action: usuarioController.inactiveLaborUsuario
+    }, {
+        path: "/usuarios/uploadFotoPerfil",
+        method: "post",
+        action: usuarioController.saveFotoPerfilUsuario
+    },
+    {
+        path: "/usuarios/uploadDocumento",
+        method: "post",
+        action: usuarioController.saveDocumentFile
+    },
+    {
+        path: "/usuarios/uploadFotoRecibo",
+        method: "post",
+        action: usuarioController.saveFotoRecibo
     },
     {
         path: "/labores/all",
