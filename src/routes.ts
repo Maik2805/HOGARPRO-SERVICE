@@ -3,6 +3,7 @@ import * as loginController from "./controller/LoginController";
 import * as laborController from "./controller/LaborController";
 import * as medioPagoController from "./controller/MedioPagoController";
 import * as pagoController from "./controller/PagoController";
+import * as servicioController from "./controller/ServicioController";
 
 interface IRoute {
     path: string;
@@ -105,6 +106,10 @@ export const AppRoutes: IRoute[] = [
         path: "/medio_pago",
         method: "post",
         action: medioPagoController.save
+    }, {
+        path: "/pagos/all",
+        method: "get",
+        action: pagoController.all
     },
     {
         path: "/pagos/findByServicio/:servicio",
@@ -120,6 +125,46 @@ export const AppRoutes: IRoute[] = [
         path: "/pagos",
         method: "post",
         action: pagoController.save
-    }
+    },
+    {
+        path: "/servicios/all",
+        method: "get",
+        action: servicioController.all
+    },
+    {
+        path: "/servicios/find/:id",
+        method: "get",
+        action: servicioController.findById
+    },
+    {
+        path: "/servicios/findByCliente/:usuario",
+        method: "get",
+        action: servicioController.findByCliente
+    },
+    {
+        path: "/servicios/findByTrabajador/:usuario",
+        method: "get",
+        action: servicioController.findByTrabajador
+    },
+    {
+        path: "/servicios",
+        method: "post",
+        action: servicioController.save
+    },
+    {
+        path: "/servicios/finalizar",
+        method: "post",
+        action: servicioController.finalizarServicio
+    },
+    {
+        path: "/servicios/calificar",
+        method: "post",
+        action: servicioController.calificarServicio
+    },
+    {
+        path: "/servicios/createBasic",
+        method: "post",
+        action: servicioController.createByTrabajadorClienteCantidad
+    },
 ];
 
