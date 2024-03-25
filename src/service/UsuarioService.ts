@@ -19,7 +19,7 @@ export async function findPublicInfo(id: string): Promise<PublicUserInfo> {
         .where("Usuario.celular = :id", { id: id })
         .getOne();
     if (!user) return null;
-
+    let [cantidad, promedio] = await getEmployeeRatingCountAndAvg(id);
     const result: PublicUserInfo = {
         celular: user.celular,
         tipoDocumento: user.tipoDocumento,
@@ -27,7 +27,9 @@ export async function findPublicInfo(id: string): Promise<PublicUserInfo> {
         correoElectronico: user.correoElectronico,
         nombreCompleto: user.nombre + ' ' + user.apellido,
         fechaNacimiento: user.fechaNacimiento,
-        fotoPerfil: user.fotoPerfil
+        fotoPerfil: user.fotoPerfil,
+        numeroEstrellas: cantidad,
+        promedioEstrellas: promedio
     }
     return result;
 };
@@ -43,6 +45,14 @@ export async function findUserById(id: string): Promise<Usuario> {
 
 export async function save(usuario: Usuario) {
     await userRepository.save(usuario);
+}
+
+async function getEmployeeRatingCountAndAvg(id: string): Promise<[number, number]> {
+    const raw = await userRepository.query(
+        "select coalesce(sum(s.calificacion),0) as sum , coalesce(avg(s.calificacion),0) as avg from hogar_pro.servicios s where s.id_trabajador = $1 and s.calificacion is not null", [id]
+    );
+    const result = raw[0];
+    return [parseFloat(result.sum), parseFloat(result.avg)];
 }
 
 export async function validateTrabajadorDisponible(idUsuario: string) {
