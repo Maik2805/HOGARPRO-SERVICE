@@ -84,7 +84,7 @@ export async function calificarServicio(req: Request, res: Response) {
             return;
         } else {
             res.sendStatus(403);
-            res.send("Operación No Permitida");
+            // res.send("Operación No Permitida");
             return;
         }
     }
