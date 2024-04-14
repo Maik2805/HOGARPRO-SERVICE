@@ -5,37 +5,32 @@ on:
     branches:
       - main
 
+  workflow_dispatch:
+
 jobs:
-  deploy:
+  build:
+
     runs-on: ubuntu-latest
 
+    if: github.ref == 'refs/heads/master'
+
+    strategy:
+      matrix:
+        node-version: [20.x]
+
     steps:
-      - name: Checkout del código
-        uses: actions/checkout@v2
+      - uses: actions/checkout@v2
 
-      - name: Build & Deploy
-        uses: actions/checkout@v2
-        env:
-          HOSTNAME: ${{ secrets.EC2_HOST }}
-          USER_NAME: ${{ secrets.EC2_USERNAME }}
-          PRIVATE_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ${{ env.AWS_REGION }}
+      - run: npm ci
+      - run: npm run build
+      - run: npm run test
 
-      - name: Despliegue del código
-        run: |
-          echo "Hello world Github Actions"
-          echo "$PRIVATE_KEY" > private_key && chmod 600 private_key
-          echo "Action 2"
-          ssh -o StrictHostKeyChecking=no -i private_key ${USER_NAME}@${HOSTNAME} '
-          echo "Action 3"
-              # Now we have got the access of EC2 and we will start the deploy .
-              cd /home/ubuntu/HOGARPRO-SERVICE &&
-              git checkout dev &&
-              git fetch --all &&
-              git reset --hard origin/dev &&
-              git pull origin dev &&
-              sudo npm i &&
-              sudo npm run build &&
-              sudo pm2 stop ./dist/index.js &&
-              sudo pm2 start ./dist/index.js
-              '
+      - name: rsync deployments
+        uses: burnett01/rsync-deployments@5.1
+        with:
+          switches: -avzr --delete
+          path: ./*
+          remote_path: /var/www/HOGARPRO-SERVICE/
+          remote_host: ec2-54-89-124-95.compute-1.amazonaws.com
+          remote_user: ubuntu
+          remote_key: "${{ secrets.SSH_PRIVATE_KEY }}"
