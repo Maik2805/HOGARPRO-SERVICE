@@ -4,9 +4,6 @@ on:
   push:
     branches:
       - main
-  pull_request:
-    branches:
-      - main
 
 jobs:
   deploy:
@@ -28,8 +25,9 @@ jobs:
         run: |
           echo "Hello world Github Actions"
           echo "$PRIVATE_KEY" > private_key && chmod 600 private_key
+          echo "Action 2"
           ssh -o StrictHostKeyChecking=no -i private_key ${USER_NAME}@${HOSTNAME} '
-
+          echo "Action 3"
               # Now we have got the access of EC2 and we will start the deploy .
               cd /home/ubuntu/HOGARPRO-SERVICE &&
               git checkout dev &&
