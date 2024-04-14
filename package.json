@@ -8,7 +8,7 @@
     "start": "ts-node src/index.ts",
     "typeorm": "typeorm-ts-node-commonjs",
     "nodemon": "nodemon --exec \"npm run start\"",
-    "build": "tsc && typeorm schema:sync && cp src/config.json dist/"
+    "build": "tsc"
   },
   "keywords": [],
   "author": "",
@@ -17,7 +17,7 @@
     "@types/node": "^16.11.10",
     "nodemon": "^2.0.20",
     "ts-node": "10.7.0",
-    "typescript": "4.5.2"
+    "typescript": "^5.4.5"
   },
   "dependencies": {
     "bcrypt": "^5.1.1",
