@@ -24,6 +24,11 @@ jobs:
       - run: npm ci
       - run: npm run build
       # - run: npm run test
+      - name: create .env
+        run: |
+          echo "TOKEN_SECRET=${{ secrets.SERVICE_TOKEN_SECRET }}" > ./build/.env
+          echo "PATH_IMG=${{ secrets.SERVICE_PATH_IMG }}" >> ./build/.env
+          echo "PATH_DOC=${{ secrets.SERVICE_PATH_DOC }}" >> ./build/.env
 
       - name: rsync deployments
         uses: burnett01/rsync-deployments@5.1
