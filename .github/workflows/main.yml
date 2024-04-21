@@ -1,39 +1,41 @@
 name: Despliegue en EC2
 
 on:
-  pull_request:
+  push:
     branches:
       - main
 
+  workflow_dispatch:
+
 jobs:
-  deploy:
+  build:
+
     runs-on: ubuntu-latest
 
+
+
+    strategy:
+      matrix:
+        node-version: [20.12]
+
     steps:
-      - name: Checkout del código
-        uses: actions/checkout@v2
+      - uses: actions/checkout@v2
 
-      - name: Build & Deploy
-        uses: actions/checkout@v2
-        env:
-          HOSTNAME: ${{ secrets.EC2_HOST }}
-          USER_NAME: ${{ secrets.EC2_USERNAME }}
-          PRIVATE_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ${{ env.AWS_REGION }}
-
-      - name: Despliegue del código
+      - run: npm ci
+      - run: npm run build
+      # - run: npm run test
+      - name: create .env
         run: |
-          echo "$PRIVATE_KEY" > private_key && chmod 600 private_key
-          ssh -o StrictHostKeyChecking=no -i private_key ${USER_NAME}@${HOSTNAME} '
+          echo "TOKEN_SECRET=${{ secrets.SERVICE_TOKEN_SECRET }}" > ./build/.env
+          echo "PATH_IMG=${{ secrets.SERVICE_PATH_IMG }}" >> ./build/.env
+          echo "PATH_DOC=${{ secrets.SERVICE_PATH_DOC }}" >> ./build/.env
 
-              # Now we have got the access of EC2 and we will start the deploy .
-              cd /home/ubuntu/HOGARPRO-SERVICE &&
-              git checkout dev &&
-              git fetch --all &&
-              git reset --hard origin/dev &&
-              git pull origin dev &&
-              sudo npm i &&
-              sudo npm run build &&
-              sudo pm2 stop ./dist/index.js &&
-              sudo pm2 start ./dist/index.js
-              '
+      - name: rsync deployments
+        uses: burnett01/rsync-deployments@5.1
+        with:
+          switches: -avzr --delete
+          path: ./*
+          remote_path: /var/www/HOGARPRO-SERVICE/
+          remote_host: "${{ secrets.EC2_HOST }}"
+          remote_user: "${{ secrets.EC2_USERNAME }}"
+          remote_key: "${{ secrets.SSH_PRIVATE_KEY }}"
