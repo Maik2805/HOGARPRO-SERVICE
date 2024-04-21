@@ -1,0 +1,25 @@
+name: Test Publicación de Versión
+
+on:
+  pull_request:
+    branches:
+      - main
+
+  workflow_dispatch:
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+
+
+    strategy:
+      matrix:
+        node-version: [20.12]
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - run: npm ci
+      - run: npm run test
