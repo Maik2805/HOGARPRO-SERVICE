@@ -9,7 +9,8 @@
     "typeorm": "typeorm-ts-node-commonjs",
     "nodemon": "nodemon --exec \"npm run start\"",
     "build": "tsc",
-    "test": "jest"
+    "test": "jest",
+    "sonar": "sonar-scanner"
   },
   "keywords": [],
   "author": "",
@@ -21,7 +22,8 @@
     "nodemon": "^2.0.20",
     "ts-jest": "^29.1.2",
     "ts-node": "10.7.0",
-    "typescript": "^5.4.5"
+    "typescript": "^5.4.5",
+    "sonarqube-scanner": "^2.7.0"
   },
   "dependencies": {
     "bcrypt": "^5.1.1",
