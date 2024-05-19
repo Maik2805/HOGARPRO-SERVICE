@@ -9,7 +9,7 @@ module.exports = {
     coverageDirectory: 'coverage',
     reporters: [
       "default",
-      ["jest-sonar-reporter", {
+      [require.resolve('jest-sonar-reporter'), {
         outputDirectory: 'reports',
         outputName: 'test-reporter.xml',
       }]
