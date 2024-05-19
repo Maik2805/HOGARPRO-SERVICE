@@ -10,7 +10,7 @@ module.exports = {
     testEnvironment: 'node',
     reporters: [
       "default",
-      ["jest-sonar", {
+      ["jest-sonar-reporter", {
         outputDirectory: 'reports',
         outputName: 'test-reporter.xml',
       }]
