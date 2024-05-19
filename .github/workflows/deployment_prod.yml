@@ -12,16 +12,31 @@ jobs:
 
     runs-on: ubuntu-latest
 
-
-
     strategy:
       matrix:
         node-version: [20.12]
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0 
 
       - run: npm ci
+      - run: npm run test
+
+      - name: Run SonarCloud Scan
+        uses: SonarSource/sonarcloud-github-action@master
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          run: |
+            sonar-scanner \
+            -Dsonar.projectKey=henlo-mm_HOGARPRO-SERVICE \
+            -Dsonar.organization=henlo-mm \
+            -Dsonar.sources=. \
+            -Dsonar.host.url=https://sonarcloud.io \
+            -Dsonar.login=$SONAR_TOKEN \
+            -Dsonar.javascript.lcov.reportPaths=coverage/lcov.info
+            
       - run: npm run build
       # - run: npm run test
       - name: create .env
