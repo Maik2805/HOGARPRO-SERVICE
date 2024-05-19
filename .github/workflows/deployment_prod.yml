@@ -35,7 +35,7 @@ jobs:
               -Dsonar.organization=henlo-mm
               -Dsonar.sources=.
               -Dsonar.host.url=https://sonarcloud.io
-              -Dsonar.login=${{ secrets.SONAR_TOKEN }}
+              -Dsonar.token=${{ secrets.SONAR_TOKEN }}
               -Dsonar.javascript.lcov.reportPaths=coverage/lcov.info
             
       - run: npm run build
@@ -45,6 +45,8 @@ jobs:
           echo "TOKEN_SECRET=${{ secrets.SERVICE_TOKEN_SECRET }}" > ./build/.env
           echo "PATH_IMG=${{ secrets.SERVICE_PATH_IMG }}" >> ./build/.env
           echo "PATH_DOC=${{ secrets.SERVICE_PATH_DOC }}" >> ./build/.env
+          echo "DB_USERNAME=${{ secrets.DB_USERNAME }}" >> ./build/.env
+          echo "DB_PASSWORD=${{ secrets.DB_PASSWORD }}" >> ./build/.env
 
       - name: rsync deployments
         uses: burnett01/rsync-deployments@5.1
