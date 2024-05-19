@@ -7,7 +7,6 @@ module.exports = {
     moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json', 'node'],
     testEnvironment: 'node',
     coverageDirectory: 'coverage',
-    testEnvironment: 'node',
     reporters: [
       "default",
       ["jest-sonar-reporter", {
