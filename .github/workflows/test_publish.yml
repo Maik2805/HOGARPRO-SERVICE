@@ -22,7 +22,14 @@ jobs:
           node-version: '20'
 
       - run: npm install
-      - run: npm run test -- --coverage
+      
+      - run: npm run test 
+
+      - name: Upload Coverage Report
+        uses: actions/upload-artifact@v3
+        with:
+          name: coverage
+          path: coverage/lcov.info
 
       - name: Run SonarCloud Scan
         uses: SonarSource/sonarcloud-github-action@master
