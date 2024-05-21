@@ -22,7 +22,7 @@ jobs:
           node-version: '20'
 
       - run: npm install
-      - run: npm run test
+      - run: npm run test -- --coverage
 
       - name: Run SonarCloud Scan
         uses: SonarSource/sonarcloud-github-action@master
@@ -36,5 +36,5 @@ jobs:
               -Dsonar.sources=.
               -Dsonar.host.url=https://sonarcloud.io
               -Dsonar.token=${{ secrets.SONAR_TOKEN }}
-              -Dsonar.testExecutionReportPaths=reports/test-reporter.xml
+              -Dsonar.javascript.lcov.reportPaths=coverage/lcov.info
 
