@@ -35,7 +35,7 @@ jobs:
             args: >
               -Dsonar.projectKey=henlo-mm_HOGARPRO-SERVICE
               -Dsonar.organization=henlo-mm
-              -Dsonar.sources=src
+              -Dsonar.sources=.
               -Dsonar.tests=test
               -Dsonar.host.url=https://sonarcloud.io
               -Dsonar.token=${{ secrets.SONAR_TOKEN }}
