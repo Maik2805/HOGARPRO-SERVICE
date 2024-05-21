@@ -23,10 +23,8 @@ jobs:
 
       - run: npm install
 
-      - run: npm run test -- --coverage
+      - run: npm run test 
 
-      - name: List coverage directory
-        run: ls -R coverage
 
       - name: Run SonarCloud Scan
         uses: SonarSource/sonarcloud-github-action@master
@@ -37,7 +35,8 @@ jobs:
             args: >
               -Dsonar.projectKey=henlo-mm_HOGARPRO-SERVICE
               -Dsonar.organization=henlo-mm
-              -Dsonar.sources=.
+              -Dsonar.sources=src
+              -Dsonar.tests=test
               -Dsonar.host.url=https://sonarcloud.io
               -Dsonar.token=${{ secrets.SONAR_TOKEN }}
               -Dsonar.javascript.lcov.reportPaths=coverage/lcov.info
