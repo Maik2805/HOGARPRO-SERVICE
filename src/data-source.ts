@@ -6,14 +6,15 @@ import { LaborTrabajador } from "./entity/LaborTrabajador"
 import { MedioPago } from "./entity/MedioPago"
 import { Pago } from "./entity/Pago"
 import { Servicio } from "./entity/Servicio"
-
+const dotenv = require('dotenv');
+dotenv.config()
 
 export const AppDataSource = new DataSource({
     type: "postgres",
     host: "automanage.c2xk7ezgbanl.us-east-2.rds.amazonaws.com",
     port: 5432,
-    username: "automanage",
-    password: "automanage",
+    username: process.env.DB_USERNAME,
+    password: process.env.DB_PASSWORD,
     database: "postgres",
     schema: "hogar_pro",
     synchronize: false,

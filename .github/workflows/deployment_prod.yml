@@ -8,27 +8,29 @@ on:
   workflow_dispatch:
 
 jobs:
-  build:
+  deploy:
 
     runs-on: ubuntu-latest
 
-
-
-    strategy:
-      matrix:
-        node-version: [20.12]
-
     steps:
-      - uses: actions/checkout@v2
-
-      - run: npm ci
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0 
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20'
+          
+      - run: npm install
       - run: npm run build
-      # - run: npm run test
+
       - name: create .env
         run: |
-          echo "TOKEN_SECRET=${{ secrets.SERVICE_TOKEN_SECRET }}" > ./build/.env
-          echo "PATH_IMG=${{ secrets.SERVICE_PATH_IMG }}" >> ./build/.env
-          echo "PATH_DOC=${{ secrets.SERVICE_PATH_DOC }}" >> ./build/.env
+          echo "TOKEN_SECRET=${{ secrets.SERVICE_TOKEN_SECRET }}" > ./build/src/.env
+          echo "PATH_IMG=${{ secrets.SERVICE_PATH_IMG }}" >> ./build/src/.env
+          echo "PATH_DOC=${{ secrets.SERVICE_PATH_DOC }}" >> ./build/src/.env
+          echo "DB_USERNAME=${{ secrets.DB_USERNAME }}" >> ./build/src/.env
+          echo "DB_PASSWORD=${{ secrets.DB_PASSWORD }}" >> ./build/src/.env
 
       - name: rsync deployments
         uses: burnett01/rsync-deployments@5.1

@@ -7,7 +7,7 @@ import { BasicUserInfo } from "../interface/BasicUserInfo";
 const laborRepository = AppDataSource.getRepository(Labor);
 
 export async function all(req: Request, res: Response) {
-    const labores: Labor[] = await laborService.all();
+    const labores: Labor[] = [];//await laborService.all();
     res.send(labores);
 };
 
@@ -36,5 +36,9 @@ export async function save(req: Request, res: Response) {
     const newLabor: Labor[] = laborRepository.create(req.body);
     await laborService.save(newLabor);
     res.send(newLabor);
+}
+
+async function helloWorld() {
+    return "Hello World";
 }
 
