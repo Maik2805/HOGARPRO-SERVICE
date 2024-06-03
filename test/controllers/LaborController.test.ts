@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { all, helloWorld3 } from '../../src/controller/LaborController';
+import { all, helloWorld3, helloWorld4 } from '../../src/controller/LaborController';
 import * as laborService from '../../src/service/LaborService';
 import { Labor } from '../../src/entity/Labor';
 
@@ -44,7 +44,7 @@ describe('LaborController', () => {
   });
   describe('helloWorld4', () => {
     it('Return Hello World4', () => {
-      expect(helloWorld3()).toBe("Hello World4");
+      expect(helloWorld4()).toBe("Hello World4");
     });
   });
 });
