@@ -42,4 +42,9 @@ describe('LaborController', () => {
       expect(helloWorld3()).toBe("Hello World3");
     });
   });
+  describe('helloWorld4', () => {
+    it('Return Hello World4', () => {
+      expect(helloWorld3()).toBe("Hello World4");
+    });
+  });
 });
