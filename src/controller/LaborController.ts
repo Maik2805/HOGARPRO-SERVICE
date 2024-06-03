@@ -46,3 +46,7 @@ function helloWorld2() {
     return "Hello World";
 }
 
+export function helloWorld3() {
+    return "Hello World3";
+}
+
