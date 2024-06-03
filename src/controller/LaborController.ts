@@ -38,3 +38,7 @@ export async function save(req: Request, res: Response) {
     res.send(newLabor);
 }
 
+async function helloWorld() {
+    return "Hello World";
+}
+
