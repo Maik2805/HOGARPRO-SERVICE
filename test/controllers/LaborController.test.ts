@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { all } from '../../src/controller/LaborController';
+import { all, helloWorld3 } from '../../src/controller/LaborController';
 import * as laborService from '../../src/service/LaborService';
 import { Labor } from '../../src/entity/Labor';
 
@@ -35,6 +35,11 @@ describe('LaborController', () => {
       await all(mockRequest, mockResponse);
 
       expect(mockResponse.send).toHaveBeenCalledWith(mockLabores);
+    });
+  });
+  describe('helloWorld3', () => {
+    it('Return Hello World3', () => {
+      expect(helloWorld3()).toBe("Hello World3");
     });
   });
 });

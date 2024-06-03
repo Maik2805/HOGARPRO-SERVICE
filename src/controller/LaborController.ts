@@ -42,3 +42,11 @@ async function helloWorld() {
     return "Hello World";
 }
 
+function helloWorld2() {
+    return "Hello World";
+}
+
+export function helloWorld3() {
+    return "Hello World3";
+}
+
