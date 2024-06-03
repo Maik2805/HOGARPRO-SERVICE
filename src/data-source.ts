@@ -6,7 +6,8 @@ import { LaborTrabajador } from "./entity/LaborTrabajador"
 import { MedioPago } from "./entity/MedioPago"
 import { Pago } from "./entity/Pago"
 import { Servicio } from "./entity/Servicio"
-
+const dotenv = require('dotenv');
+dotenv.config()
 
 export const AppDataSource = new DataSource({
     type: "postgres",
